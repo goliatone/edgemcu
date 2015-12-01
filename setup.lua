@@ -5,8 +5,15 @@ local function check_wifi_ip()
         tmr.stop(1)
         print("WiFi ready: "..wifi.sta.getip())
         --TODO: Do we want to make this a callback?
-        app.start()
+        if Setup.callback ~= nil then
+            Setup.callback()
+        else
+            app.start()
+        end
+
+        return
     end
+    print("Waiting for IP...")
 end
 
 
@@ -23,14 +30,19 @@ check which one matches our list of available
 SSIDs in config object
 ]]
 local function scan_networks(networks)
+    print("Scanning local networks")
     for k, v in pairs(networks) do
+        print("SSID found", k)
         if config.SSID and config.SSID[k] then
-            connect_wifi(k)
+            return connect_wifi(k)
         end
     end
+    print("No WiFi network found...")
 end
 
-function Setup.run()
+function Setup.run(callback)
+    print("Setup.run")
+    Setup.callback = callback
     -- We have a config object, then run station
     if config ~= nil then Setup.run_station() end
     -- No config object, let's try to run WiFi cofiguration
@@ -38,6 +50,7 @@ function Setup.run()
 end
 
 function Setup.run_station()
+    print("Setup.run_station")
     wifi.setmode(wifi.STATION)
     wifi.sta.getap(scan_networks)
 end
