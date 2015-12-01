@@ -1,7 +1,10 @@
 -- Create a global variable holding our app
 app = dofile("app.lua")
 
-
+-- Create a global variable holding config
 config = dofile("config.lua")
 
-dofile("setup.lua").run()
+dofile("setup.lua").run(function()
+    print("Setup complete")
+    app.start()
+end)
