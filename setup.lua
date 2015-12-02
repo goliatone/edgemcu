@@ -3,17 +3,9 @@ local Setup = {}
 local function check_wifi_ip()
     if wifi.sta.getip() then
         tmr.stop(1)
-        print("WiFi ready: "..wifi.sta.getip())
-        --TODO: Do we want to make this a callback?
-        if Setup.callback ~= nil then
-            Setup.callback()
-        else
-            app.start()
-        end
-
-        return
+        return Setup.notifyConnection()
     end
-    print("Waiting for IP...")
+    Setup.notifyTimeout()
 end
 
 
@@ -40,13 +32,14 @@ local function scan_networks(networks)
     print("No WiFi network found...")
 end
 
-function Setup.run(callback)
+function Setup.run(onConnection, onTimeout)
     print("Setup.run")
-    Setup.callback = callback
+    Setup.onConnection = onConnection
+    Setup.onTimeout = onTimeout
     -- We have a config object, then run station
     if config ~= nil then Setup.run_station() end
     -- No config object, let's try to run WiFi cofiguration
-    Setup.admin_panel()
+    Setup.run_configuration()
 end
 
 function Setup.run_station()
@@ -55,11 +48,27 @@ function Setup.run_station()
     wifi.sta.getap(scan_networks)
 end
 
-function Setup.admin_panel()
+function Setup.run_configuration()
     --Here we would use the AP MODE AND all that bubble.
     -- it should provide a server to whicn we can connect and
     --modify through a form a config file. Then we compile the
     -- file so that its picked up by Config on boot sequence.
+end
+
+function Setup.notifyConnection()
+    print("WiFi ready: "..wifi.sta.getip())
+    if Setup.onConnection ~= nil then
+        Setup.onConnection()
+    else
+        app.start()
+    end
+end
+
+function Setup.notifyTimeout()
+    print("Waiting for IP...")
+    if Setup.onTimeout ~= nil then
+        Setup.onTimeout()
+    end
 end
 
 return Setup
