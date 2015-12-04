@@ -8,4 +8,8 @@ function App.start()
     gpio.write(0, gpio.LOW)
 end
 
+function App.before_setup()
+    print("App: before setup")
+end
+
 return App
