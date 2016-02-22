@@ -36,7 +36,9 @@ function Setup.run(onConnection, onTimeout)
     print("Setup.run")
     Setup.onConnection = onConnection
     Setup.onTimeout = onTimeout
+
     -- We have a config object, then run station
+    -- This should check for config.lc or similar flag
     if config ~= nil then Setup.run_station() end
     -- No config object, let's try to run WiFi cofiguration
     Setup.run_configuration()
@@ -66,6 +68,8 @@ end
 
 function Setup.notifyTimeout()
     print("Waiting for IP...")
+    --Here we should implement a counter or
+    --time based timeout.
     if Setup.onTimeout ~= nil then
         Setup.onTimeout()
     end
