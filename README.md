@@ -3,11 +3,11 @@
 EdgeMCU is an application framework and project scaffold for NodeMCU projects.
 
 ### Files:
-* [init.lua](#init-lua)
-* [boot.lua](#boot-lua)
-* [app.lua](#app-lua)
-* [setup.lua](#setup-lua)
-* [config.lua](#config-lua)
+* [init.lua](#initlua)
+* [boot.lua](#bootlua)
+* [app.lua](#applua)
+* [setup.lua](#setuplua)
+* [config.lua](#configlua)
 
 #### init.lua
 This file is kept intentionally simple. It will call `boot.lua` after a delay of 2 seconds.
