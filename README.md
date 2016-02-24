@@ -21,7 +21,12 @@ The boot module wires together the application by requiring the `app` and the `c
 Then it will load the `setup` module and call it's `run` function. When the setup is complete, it will call the `App.start` function.
 
 #### app.lua
+
 The app module is where you should include your application's logic.
+
+It exposes two functions, `App.start` and `App.before_setup` that in turn will call `dofile` on `app_before_setup.lua` and `app_start.lua` if they exists.
+
+This way, your application specific code can go in this two files and will get executed by simply creating them.
 
 #### setup.lua
 The setup module's is mainly responsible to configure WiFi. It does so by listing all visible networks and then it will try to match a networks name with the value in `Config.SSID`.
@@ -30,6 +35,8 @@ We can define a function `Setup.onConnection` which would be called once the con
 
 #### config.lua
 This module exposes a table object that you can reference through your project to access configuration values.
+
+This is the only file of the framework which you have to edit per application- unless you want to modify default behavior of other files.
 
 It's required by `boo.lua` and referenced by `setup.lua`. During the setup process we access the `SSID` table which holds credentials for multiple networks in the form:
 
