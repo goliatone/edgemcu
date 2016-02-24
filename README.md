@@ -1,6 +1,8 @@
-## NodeMCU Application Framework and Project Scaffold
+## NodeMCU Application Skeleton
 
-EdgeMCU is an application framework and project scaffold for NodeMCU projects.
+EdgeMCU is an application skeleton for NodeMCU projects.
+
+Be sure to check the [node-esp][node-esp] `cli` tool to manage the filesystem, flash NodeMCU firmware and more.
 
 ### Files:
 * [init.lua](#initlua)
@@ -78,3 +80,6 @@ Should we make global variables uppercase?
 TODO:
 - `setup.lua`: implement WiFi connect timeout watchdog
 - `setup.lua`: Do we want to add WiFi setup HTML admin page?
+
+
+[node-esp]: https://github.com/goliatone/node-esp
